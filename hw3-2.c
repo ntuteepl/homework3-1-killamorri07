@@ -1,25 +1,49 @@
 #include <stdio.h>
 
-int checkOverlap(int h1, int h2, int h3, int h4, int h5, int h6) {
-    // Check if 1, 3, and 5 do not overlap
-    if ((h1 <= h3 && h3 <= h2) || (h1 <= h5 && h5 <= h2) || (h3 <= h1 && h1 <= h4) || (h3 <= h5 && h5 <= h4) || (h5 <= h1 && h1 <= h6) || (h5 <= h3 && h3 <= h6)) {
-        return 0; // Overlapping inputs
+// Function to calculate the minimum number of vehicles needed
+int minVehiclesNeeded(int s[], int d[]) {
+    // Sort the task orders by their departure times
+    int n = 3;
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (d[i] > d[j]) {
+                int temp = s[i];
+                s[i] = s[j];
+                s[j] = temp;
+                temp = d[i];
+                d[i] = d[j];
+                d[j] = temp;
+            }
+        }
     }
 
-    return 1; // No overlap
+    int vehiclesNeeded = 1;
+    int currentEndTime = d[0];
+
+    for (int i = 1; i < n; i++) {
+        if (s[i] < currentEndTime) {
+            // If there's a conflict, a new vehicle is needed
+            vehiclesNeeded++;
+        } else {
+            // No conflict, continue with the same vehicle
+            currentEndTime = d[i];
+        }
+    }
+
+    return vehiclesNeeded;
 }
 
 int main() {
-    int h1, h2, h3, h4, h5, h6;
+    int s[3], d[3];
 
-    printf("Enter 6 hour values: ");
-    scanf("%d %d %d %d %d %d", &h1, &h2, &h3, &h4, &h5, &h6);
-
-    if (checkOverlap(h1, h2, h3, h4, h5, h6)) {
-        printf("Inputs do not overlap.\n");
-    } else {
-        printf("Invalid input: Overlapping hours.\n");
+    // Input: s1, d1, s2, d2, s3, d3 (departure and return times for three orders)
+    for (int i = 0; i < 3; i++) {
+        scanf("%d %d", &d[i], &s[i]);
     }
+
+    // Calculate and print the minimum number of vehicles needed
+    int vehiclesNeeded = minVehiclesNeeded(s, d);
+    printf(" %d\n", vehiclesNeeded);
 
     return 0;
 }
