@@ -28,6 +28,14 @@ int minVehiclesNeeded(int s[], int d[]) {
             // No conflict, continue with the same vehicle
             currentEndTime = d[i];
         }
+
+        // Check if either departure or return time is greater than 24
+        if (s[i] == 24 || d[i] == 24) {
+            vehiclesNeeded++;
+        }
+        else if (s[i] > 24 || d[i] > 24) {
+            vehiclesNeeded++;
+    }
     }
 
     return vehiclesNeeded;
@@ -43,7 +51,7 @@ int main() {
 
     // Calculate and print the minimum number of vehicles needed
     int vehiclesNeeded = minVehiclesNeeded(s, d);
-    printf(" %d\n", vehiclesNeeded);
+    printf("%d\n", vehiclesNeeded);
 
     return 0;
 }
