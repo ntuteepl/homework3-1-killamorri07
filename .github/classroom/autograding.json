@@ -28,7 +28,7 @@
       "output": "",
       "comparison": "exact",
       "timeout": 10,
-      "points": 1
+      "points": null
     },
     {
       "name": "hw3-2",
@@ -38,7 +38,7 @@
       "output": "",
       "comparison": "exact",
       "timeout": 10,
-      "points": 1
+      "points": null
     },
     {
       "name": "hw3-3",
@@ -48,7 +48,7 @@
       "output": "",
       "comparison": "exact",
       "timeout": 10,
-      "points": 1
+      "points": null
     },
     {
       "name": "hw3-4",
@@ -58,7 +58,7 @@
       "output": "",
       "comparison": "exact",
       "timeout": 10,
-      "points": 1
+      "points": null
     }
   ]
 }
