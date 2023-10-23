@@ -2,39 +2,29 @@
 
 // Function to calculate the minimum number of vehicles needed
 int minVehiclesNeeded(int s[], int d[], int n) {
-    // Sort the task orders by their departure times
+    int vehiclesNeeded = 0;
+    int currentEndTime = 0;
+
     for (int i = 0; i < n; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (s[i] > s[j]) {
-                int temp = s[i];
-                s[i] = s[j];
-                s[j] = temp;
-                temp = d[i];
-                d[i] = d[j];
-                d[j] = temp;
-            }
+        if (d[i] > 24) {
+            // Reject orders that have a return time greater than 24
+            return -1;
         }
-    }
 
-    int vehiclesNeeded = 1;
-    int currentEndTime = d[0];
-
-    for (int i = 1; i < n; i++) {
-        if (s[i] < currentEndTime) {
-            // If there's a conflict, a new vehicle is needed
-            vehiclesNeeded++;
+        if (s[i] > currentEndTime) {
+            // If the order can start after the current driver's end time, assign it to the current driver.
+            currentEndTime = d[i];
+        } else if (d[i] <= currentEndTime) {
+            // If the order can be finished before or at the same time as the current driver's end time, do nothing.
+            continue;
         } else {
-            // No conflict, continue with the same vehicle
+            // If the order starts before the current driver's end time but ends after, assign it to a new driver.
+            vehiclesNeeded++;
             currentEndTime = d[i];
         }
-
-        // Check if either departure or return time is greater than 24
-        if (s[i] >= 24 || d[i] >= 24) {
-            vehiclesNeeded++;
-        }
     }
 
-    return vehiclesNeeded;
+    return vehiclesNeeded + 1; // Add 1 for the first driver
 }
 
 int main() {
@@ -48,7 +38,12 @@ int main() {
 
     // Calculate and print the minimum number of vehicles needed
     int vehiclesNeeded = minVehiclesNeeded(s, d, n);
-    printf("%d\n", vehiclesNeeded);
+
+    if (vehiclesNeeded != -1) {
+        printf("%d\n", vehiclesNeeded);
+    } else {
+        printf("Cannot accommodate all orders.\n");
+    }
 
     return 0;
 }
