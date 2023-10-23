@@ -1,12 +1,11 @@
 #include <stdio.h>
 
 // Function to calculate the minimum number of vehicles needed
-int minVehiclesNeeded(int s[], int d[]) {
+int minVehiclesNeeded(int s[], int d[], int n) {
     // Sort the task orders by their departure times
-    int n = 3;
     for (int i = 0; i < n; i++) {
         for (int j = i + 1; j < n; j++) {
-            if (d[i] > d[j]) {
+            if (s[i] > s[j]) {
                 int temp = s[i];
                 s[i] = s[j];
                 s[j] = temp;
@@ -30,27 +29,25 @@ int minVehiclesNeeded(int s[], int d[]) {
         }
 
         // Check if either departure or return time is greater than 24
-        if (s[i] == 24 || d[i] == 24) {
+        if (s[i] >= 24 || d[i] >= 24) {
             vehiclesNeeded++;
         }
-        else if (s[i] > 24 || d[i] > 24) {
-            vehiclesNeeded++;
-    }
     }
 
     return vehiclesNeeded;
 }
 
 int main() {
+    int n = 3; // Number of orders
     int s[3], d[3];
 
     // Input: s1, d1, s2, d2, s3, d3 (departure and return times for three orders)
-    for (int i = 0; i < 3; i++) {
-        scanf("%d %d", &d[i], &s[i]);
+    for (int i = 0; i < n; i++) {
+        scanf("%d %d", &s[i], &d[i]);
     }
 
     // Calculate and print the minimum number of vehicles needed
-    int vehiclesNeeded = minVehiclesNeeded(s, d);
+    int vehiclesNeeded = minVehiclesNeeded(s, d, n);
     printf("%d\n", vehiclesNeeded);
 
     return 0;
